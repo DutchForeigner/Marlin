@@ -70,7 +70,7 @@
 // @section info
 
 // Author info of this build printed to the host during boot and M115
-#define STRING_CONFIG_H_AUTHOR "(FAJ, ANET A6 config)" // Who made the changes.
+//#define STRING_CONFIG_H_AUTHOR "(FAJ, ANET A6 config)" // Who made the changes.
 //#define CUSTOM_VERSION_FILE Version.h // Path from the root directory (no quotes)
 
 /**
@@ -137,7 +137,7 @@
 // Printer's unique ID, used by some programs to differentiate between machines.
 // Choose your own or use a service like https://www.uuidgenerator.net/version4
 //#define MACHINE_UUID "00000000-0000-0000-0000-000000000000"
-#define MACHINE_UUID "54e8c9ad-d2c2-4403-ba34-a6fd147c5045"
+//#define MACHINE_UUID "54e8c9ad-d2c2-4403-ba34-a6fd147c5045"
 
 // @section extruder
 
@@ -494,9 +494,14 @@
     #define DEFAULT_Ki_LIST {   1.02,   1.02 }
     #define DEFAULT_Kd_LIST {  69.29,  69.29 }
   #else
-    #define DEFAULT_Kp  16.83
-    #define DEFAULT_Ki   1.02
-    #define DEFAULT_Kd  69.29
+    //#define DEFAULT_Kp  16.83
+    //#define DEFAULT_Ki   1.02
+    //#define DEFAULT_Kd  69.29
+
+    // FN settings
+    #define DEFAULT_Kp 23.71
+    #define DEFAULT_Ki 2.18
+    #define DEFAULT_Kd 64.58
   #endif
 #endif // PIDTEMP
 
@@ -540,9 +545,9 @@
   // #define DEFAULT_bedKd 610.21
 
 //Tuned values Friedrich for ANET A6
-  #define DEFAULT_bedKp 382.41
-  #define DEFAULT_bedKi 60.62
-  #define DEFAULT_bedKd 603.06
+  #define DEFAULT_bedKp 199.22
+  #define DEFAULT_bedKi 33.78
+  #define DEFAULT_bedKd 783.41
   // FIND YOUR OWN: "M303 E-1 C8 S90" to run autotune on the bed at 90 degreesC for 8 cycles.
 #endif // PIDTEMPBED
 
@@ -925,7 +930,8 @@
 /**
  * The BLTouch probe uses a Hall effect sensor and emulates a servo.
  */
-//#define BLTOUCH
+#define BLTOUCH
+#define BLTOUCH_DELAY 500   // (ms) Enable and increase if needed
 
 /**
  * Touch-MI Probe by hotends.fr
@@ -1026,7 +1032,7 @@
 //#define NOZZLE_TO_PROBE_OFFSET { -1, 3, 0 }
 
 // ANET A6 with BLTouch/3D-Touch mounted right to the nozzle
-#define NOZZLE_TO_PROBE_OFFSET { 39, 0, 0 }
+#define NOZZLE_TO_PROBE_OFFSET { 37, 0, -2.15 }
 
 // ANET A6 with BLTouch/3D-Touch betwen Fan and Belt
 // (mount: https://github.com/ralf-e/ANET_A6_modifications/tree/master/A6_X-Axis)
@@ -1034,7 +1040,7 @@
 
 // Most probes should stay away from the edges of the bed, but
 // with NOZZLE_AS_PROBE this can be negative for a wider probing area.
-#define PROBING_MARGIN 10
+#define PROBING_MARGIN 15
 
 // X and Y axis travel speed (mm/min) between probes
 #define XY_PROBE_SPEED (133*60)
@@ -1140,7 +1146,7 @@
 //#define DELAY_BEFORE_PROBING 200  // (ms) To prevent vibrations from triggering piezo sensors
 
 // Require minimum nozzle and/or bed temperature for probing
-//#define PREHEAT_BEFORE_PROBING
+// #define PREHEAT_BEFORE_PROBING
 #if ENABLED(PREHEAT_BEFORE_PROBING)
   #define PROBING_NOZZLE_TEMP 120   // (°C) Only applies to E0 at this time
   #define PROBING_BED_TEMP     50
@@ -1229,10 +1235,11 @@
 //#define Z_MAX_POS 250
 
 // ANET A6, X0/Y0 0 front left bed edge :
-#define X_BED_SIZE 222
+// #define X_BED_SIZE 222
+#define X_BED_SIZE 210 // reduced to 210 as sensor is on the right.
 #define Y_BED_SIZE 222
-#define X_MIN_POS -3
-#define Y_MIN_POS -5
+#define X_MIN_POS -1
+#define Y_MIN_POS -3
 #define Z_MIN_POS 0
 #define Z_MAX_POS 230
 
@@ -1396,9 +1403,9 @@
  */
 //#define AUTO_BED_LEVELING_3POINT
 //#define AUTO_BED_LEVELING_LINEAR
-//#define AUTO_BED_LEVELING_BILINEAR
+#define AUTO_BED_LEVELING_BILINEAR
 //#define AUTO_BED_LEVELING_UBL
-#define MESH_BED_LEVELING
+//#define MESH_BED_LEVELING
 
 /**
  * Normally G28 leaves leveling disabled on completion. Enable one of
@@ -1517,7 +1524,7 @@
  * Add a bed leveling sub-menu for ABL or MBL.
  * Include a guided procedure if manual probing is enabled.
  */
-#define LCD_BED_LEVELING
+//#define LCD_BED_LEVELING
 
 #if ENABLED(LCD_BED_LEVELING)
   #define MESH_EDIT_Z_STEP  0.025 // (mm) Step size while manually probing Z axis.
@@ -1526,7 +1533,7 @@
 #endif
 
 // Add a menu item to move between bed corners for manual bed adjustment
-#define LEVEL_BED_CORNERS
+// #define LEVEL_BED_CORNERS
 
 #if ENABLED(LEVEL_BED_CORNERS)
   #define LEVEL_CORNERS_INSET_LFRB { 30, 30, 30, 30 } // (mm) Left, Front, Right, Back insets
@@ -1572,7 +1579,7 @@
 // - Move the Z probe (or nozzle) to a defined XY point before Z Homing.
 // - Prevent Z homing when the Z probe is outside bed area.
 //
-//#define Z_SAFE_HOMING
+#define Z_SAFE_HOMING
 
 #if ENABLED(Z_SAFE_HOMING)
   #define Z_SAFE_HOMING_X_POINT X_CENTER  // X point for Z homing
@@ -1698,7 +1705,7 @@
 
 // Preheat Constants
 #define PREHEAT_1_LABEL       "PLA"
-#define PREHEAT_1_TEMP_HOTEND 200
+#define PREHEAT_1_TEMP_HOTEND 205
 #define PREHEAT_1_TEMP_BED     50
 #define PREHEAT_1_FAN_SPEED     0 // ANET A6 Default is 255
 
@@ -1949,7 +1956,7 @@
  * just remove some extraneous menu items to recover space.
  */
 //#define NO_LCD_MENUS
-//#define SLIM_LCD_MENUS
+#define SLIM_LCD_MENUS
 
 //
 // ENCODER SETTINGS
@@ -2011,7 +2018,7 @@
 // If you have a speaker that can produce tones, enable it here.
 // By default Marlin assumes you have a buzzer with a fixed frequency.
 //
-#define SPEAKER
+//#define SPEAKER
 
 //
 // The duration and frequency for the UI feedback sound.
@@ -2020,8 +2027,10 @@
 // Note: Test audio output with the G-Code:
 //  M300 S<frequency Hz> P<duration ms>
 //
-#define LCD_FEEDBACK_FREQUENCY_DURATION_MS 40
-#define LCD_FEEDBACK_FREQUENCY_HZ 200
+//#define LCD_FEEDBACK_FREQUENCY_DURATION_MS 40
+//#define LCD_FEEDBACK_FREQUENCY_HZ 200
+#define LCD_FEEDBACK_FREQUENCY_DURATION_MS 0
+#define LCD_FEEDBACK_FREQUENCY_HZ 0
 
 //=============================================================================
 //======================== LCD / Controller Selection =========================
